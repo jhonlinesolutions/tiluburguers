@@ -132,7 +132,7 @@ Contraste mínimo AA em todos os pares de texto. O texto em laranja sobre kraft 
 │ Mapa  │ Rua Cananéia, 97     │  Location: iframe Maps + endereço + horário
 │       │ Todo dia 19h–0h      │  + link "Ver no Instagram"
 ├──────────────────────────────┤
-│ Rodapé: logo, © 2026, "site por Jhonline Solutions"
+│ Rodapé: logo, © 2026, "Feito com fome por JH Online Solutions"
 └──────────────────────────────┘
                     [● WhatsApp]  FAB fixo no canto inferior direito
 ```
@@ -142,6 +142,7 @@ Contraste mínimo AA em todos os pares de texto. O texto em laranja sobre kraft 
 - Subtítulo: "Feito na chapa, bem recheado. Delivery e retirada todos os dias, das 19h à meia-noite."
 - CTA principal: "Pedir no WhatsApp"
 - Status: "Aberto agora, fecha à 0h" ou "Fechado agora, abre às 19h"
+- Rodapé: "Feito com fome por JH Online Solutions", com link para https://jhonlinesolutions.com.br (`target="_blank" rel="noopener"`)
 
 ## 5. Arquitetura técnica
 
