@@ -1,6 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import WhatsAppFab from '../components/WhatsAppFab.astro';
+import { business } from '../data/business';
 ---
-<Base title="Tiluburguer's">
-  <main class="wrap"><h1>Tiluburguer's</h1></main>
+<Base title={`${business.name}, ${business.tagline.toLowerCase()} no Caiçara`}>
+  <Header />
+  <main>
+    <Hero />
+    <div style="height:200vh"></div>
+  </main>
+  <WhatsAppFab />
 </Base>

@@ -1,0 +1,20 @@
+---
+import { siWhatsapp } from 'simple-icons';
+import { GENERIC_ORDER_MESSAGE, waLink } from '../lib/whatsapp';
+---
+<a class="fab" href={waLink(GENERIC_ORDER_MESSAGE)} target="_blank" rel="noopener" aria-label="Pedir pelo WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d={siWhatsapp.path} /></svg>
+</a>
+
+<style>
+  .fab {
+    position: fixed; z-index: 30;
+    right: 16px; bottom: max(16px, env(safe-area-inset-bottom));
+    width: 60px; height: 60px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--laranja); color: var(--chapa);
+    box-shadow: 0 0 0 3px var(--chapa);
+  }
+  .fab:hover { background: var(--cheddar); }
+  .fab svg { width: 30px; height: 30px; fill: currentColor; }
+</style>

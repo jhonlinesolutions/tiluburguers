@@ -1,0 +1,47 @@
+---
+import { business } from '../data/business';
+import { GENERIC_ORDER_MESSAGE, waLink } from '../lib/whatsapp';
+---
+<header class="site-header" data-header>
+  <div class="wrap bar">
+    <a href="#topo" class="brand">
+      <img src="/logo-tiluburguers.jpg" alt={business.name} width="44" height="44" />
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#cardapio">Cardápio</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#onde">Onde estamos</a>
+    </nav>
+    <a class="btn btn-sm header-cta" href={waLink(GENERIC_ORDER_MESSAGE)} target="_blank" rel="noopener">Pedir</a>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const heroCta = document.querySelector('[data-hero-cta]');
+  if (header && heroCta && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      header.classList.toggle('show-cta', !entry.isIntersecting);
+    }).observe(heroCta);
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed; inset: 0 0 auto; z-index: 20;
+    background: linear-gradient(to bottom, rgb(23 18 15 / .85), rgb(23 18 15 / 0));
+    transition: background-color .2s;
+  }
+  .site-header.show-cta { background: var(--chapa); }
+  .bar { display: flex; align-items: center; gap: 24px; min-height: 68px; }
+  .brand img { border-radius: 50%; }
+  .nav { display: none; gap: 24px; margin-left: auto; font: 600 1.15rem/1 var(--f-cond); }
+  .nav a { color: var(--osso-suave); text-decoration: none; }
+  .nav a:hover { color: var(--osso); }
+  .header-cta { margin-left: auto; opacity: 0; visibility: hidden; transition: opacity .2s; }
+  .site-header.show-cta .header-cta { opacity: 1; visibility: visible; }
+  @media (min-width: 720px) {
+    .nav { display: flex; }
+    .header-cta { margin-left: 0; }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import { business } from '../data/business';
+import { GENERIC_ORDER_MESSAGE, waLink } from '../lib/whatsapp';
+const { copy } = business;
+---
+<section class="hero" id="topo">
+  <div class="wrap inner">
+    <div class="copy">
+      <h1 class="title">{copy.heroTitle}</h1>
+      <p class="lede">{copy.heroLede}</p>
+      <a class="btn" data-hero-cta href={waLink(GENERIC_ORDER_MESSAGE)} target="_blank" rel="noopener">{copy.orderCta}</a>
+    </div>
+    <div class="media">
+      <video
+        class="video"
+        data-hero-video
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="/video/hero-poster.jpg"
+        width="376"
+        height="480"
+        aria-hidden="true"
+      >
+        <source src="/video/hero.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</section>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function apply() {
+    if (!video) return;
+    if (reduce.matches) {
+      video.removeAttribute('autoplay');
+      video.pause();
+      video.currentTime = 0;
+    } else {
+      video.play().catch(() => {});
+    }
+  }
+  apply();
+  reduce.addEventListener('change', apply);
+</script>
+
+<style>
+  .hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 100svh; display: flex; align-items: flex-end;
+  }
+  .inner { padding-block: 96px 14svh; }
+  .media { position: absolute; inset: 0; z-index: -1; }
+  .media::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--chapa) 6%, rgb(23 18 15 / .72) 40%, rgb(23 18 15 / 0) 72%);
+  }
+  .video { width: 100%; height: 100%; object-fit: cover; }
+  .title {
+    font-size: clamp(2.9rem, 13vw, 6rem);
+    max-width: 9ch; text-wrap: balance;
+    animation: rise 1.1s cubic-bezier(.2, .7, .2, 1) .15s both;
+  }
+  .lede { max-width: 34ch; margin: 1rem 0 1.75rem; font-size: 1.15rem; color: var(--osso-suave); }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(.35em); filter: blur(8px); }
+    to { opacity: 1; transform: none; filter: none; }
+  }
+  @media (min-width: 1024px) {
+    .hero { align-items: center; }
+    .inner {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+      gap: 64px; align-items: center; padding-block: 120px 80px;
+    }
+    .media {
+      position: relative; inset: auto; z-index: auto;
+      aspect-ratio: 376 / 480; overflow: hidden;
+      border-radius: 999px 999px 32px 32px;
+      box-shadow: 0 0 0 2px var(--laranja);
+    }
+    .media::after { display: none; }
+  }
+</style>
