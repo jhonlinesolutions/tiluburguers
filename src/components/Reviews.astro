@@ -1,0 +1,57 @@
+---
+import { business } from '../data/business';
+const { rating, reviews, copy } = business;
+const ratingText = rating.value.toLocaleString('pt-BR', { minimumFractionDigits: 1 });
+---
+<section class="reviews" id="avaliacoes" aria-labelledby="avaliacoes-titulo">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="avaliacoes-titulo">{copy.reviewsTitle}</h2>
+      <p class="score">
+        <span class="num">{ratingText}</span>
+        <span class="star" aria-hidden="true">★</span>
+        <span class="sr-only">de 5 estrelas,</span>
+        <span>{rating.count} avaliações no {rating.source}</span>
+      </p>
+    </div>
+    <ul class="list" tabindex="0" aria-label="Avaliações de clientes">
+      {reviews.map((r) => (
+        <li class="review">
+          <blockquote><p>“{r.text}”</p></blockquote>
+          <p class="author">{r.author}</p>
+          {r.ownerReply && <p class="reply">Resposta da Tilu: {r.ownerReply}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .reviews { padding-block: clamp(80px, 12vw, 128px) clamp(56px, 9vw, 96px); }
+  .head {
+    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+    gap: 16px 32px; margin-bottom: 40px;
+  }
+  .score {
+    display: flex; align-items: baseline; gap: .35em; margin: 0;
+    font: 600 1.2rem/1 var(--f-cond); color: var(--osso-suave);
+  }
+  .num { font: 400 3.5rem/1 var(--f-display); color: var(--osso); }
+  .star { color: var(--cheddar); font-size: 2rem; }
+  .list {
+    list-style: none; margin: 0; padding: 0 0 8px;
+    display: grid; grid-auto-flow: column; grid-auto-columns: min(85%, 420px); gap: 24px;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  }
+  .review { scroll-snap-align: start; border-top: 3px solid var(--laranja); padding-top: 20px; }
+  blockquote { margin: 0; }
+  blockquote p { margin: 0; font-size: 1.2rem; line-height: 1.5; }
+  .author { margin: 14px 0 0; font: 600 1.15rem/1 var(--f-cond); color: var(--osso-suave); }
+  .reply {
+    margin: 12px 0 0; padding-left: 14px;
+    border-left: 2px solid var(--osso-suave); color: var(--osso-suave); font-size: .95rem;
+  }
+  @media (min-width: 960px) {
+    .list { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); gap: 48px 40px; overflow: visible; }
+  }
+</style>
