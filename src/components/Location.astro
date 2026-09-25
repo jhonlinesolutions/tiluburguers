@@ -1,0 +1,52 @@
+---
+import { siInstagram } from 'simple-icons';
+import { business } from '../data/business';
+import { mapsEmbedUrl, mapsLinkUrl } from '../lib/maps';
+import { GENERIC_ORDER_MESSAGE, waLink } from '../lib/whatsapp';
+const { address: a, copy } = business;
+---
+<section class="location" id="onde" aria-labelledby="onde-titulo">
+  <div class="wrap grid">
+    <div class="info">
+      <h2 id="onde-titulo">{copy.locationTitle}</h2>
+      <address>
+        {a.street}<br />
+        {a.district}, {a.city}/{a.state}<br />
+        CEP {a.zip}
+      </address>
+      <p class="hours">{business.hoursLabel}</p>
+      <p class="mode">{business.serviceLabel}</p>
+      <p class="links">
+        <a href={mapsLinkUrl()} target="_blank" rel="noopener">Abrir no Google Maps</a>
+        <a href={business.instagram} target="_blank" rel="noopener" class="ig">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d={siInstagram.path} /></svg>
+          {business.instagramHandle}
+        </a>
+      </p>
+      <a class="btn" href={waLink(GENERIC_ORDER_MESSAGE)} target="_blank" rel="noopener">{copy.orderCta}</a>
+    </div>
+    <div class="map">
+      <iframe
+        src={mapsEmbedUrl()}
+        title={`Mapa: ${a.street}, ${a.district}, ${a.city}`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .location { padding-block: clamp(56px, 9vw, 96px); border-top: 1px solid rgb(255 246 234 / .12); }
+  .grid { display: grid; gap: 40px; }
+  address { margin: 20px 0 16px; font: 600 1.45rem/1.3 var(--f-cond); font-style: normal; }
+  .hours { margin: 0; font-weight: 500; }
+  .mode { margin: 4px 0 20px; color: var(--osso-suave); }
+  .links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 0 0 28px; }
+  .links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+  .ig svg { width: 20px; height: 20px; fill: currentColor; }
+  .map iframe { width: 100%; aspect-ratio: 4 / 3; border: 0; border-radius: 20px; background: var(--tinta); }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: center; gap: 64px; }
+  }
+</style>

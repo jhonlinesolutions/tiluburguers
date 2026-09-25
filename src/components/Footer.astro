@@ -1,0 +1,22 @@
+---
+import { business } from '../data/business';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="wrap row">
+    <img src="/logo-tiluburguers.jpg" alt="" width="56" height="56" loading="lazy" />
+    <p>© {year} {business.name}. {business.tagline}.</p>
+    <p class="credit">
+      <a href={business.credit.url} target="_blank" rel="noopener">{business.credit.label}</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid rgb(255 246 234 / .12); padding: 40px 0 112px; color: var(--osso-suave); font-size: .95rem; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .row img { border-radius: 50%; }
+  .row p { margin: 0; }
+  .row .credit { margin-left: auto; }
+  .credit a:hover { color: var(--osso); }
+</style>
