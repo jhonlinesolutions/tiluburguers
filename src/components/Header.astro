@@ -5,7 +5,7 @@ import { GENERIC_ORDER_MESSAGE, waLink } from '../lib/whatsapp';
 <header class="site-header" data-header>
   <div class="wrap bar">
     <a href="#topo" class="brand">
-      <img src="/logo-tiluburguers.jpg" alt={business.name} width="44" height="44" />
+      <img src="/logo-tiluburguers.jpg" alt={business.name} width="56" height="56" />
     </a>
     <nav class="nav" aria-label="Seções">
       <a href="#cardapio">Cardápio</a>
@@ -33,8 +33,11 @@ import { GENERIC_ORDER_MESSAGE, waLink } from '../lib/whatsapp';
     transition: background-color .2s;
   }
   .site-header.show-cta { background: var(--chapa); }
-  .bar { display: flex; align-items: center; gap: 24px; min-height: 68px; }
-  .brand img { border-radius: 50%; }
+  .bar { display: flex; align-items: center; gap: 24px; min-height: 76px; }
+  .brand img { border-radius: 50%; box-shadow: 0 0 0 2px var(--laranja); }
+  /* No topo o selo grande do hero já mostra a marca; o logo do header entra junto com o botão. */
+  .brand { opacity: 0; visibility: hidden; transition: opacity .2s; }
+  .site-header.show-cta .brand { opacity: 1; visibility: visible; }
   .nav { display: none; gap: 24px; margin-left: auto; font: 600 1.15rem/1 var(--f-cond); }
   .nav a { color: var(--osso-suave); text-decoration: none; }
   .nav a:hover { color: var(--osso); }

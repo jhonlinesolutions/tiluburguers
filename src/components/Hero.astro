@@ -6,6 +6,7 @@ const { copy } = business;
 <section class="hero" id="topo">
   <div class="wrap inner">
     <div class="copy">
+      <img class="badge" data-hero-logo src="/logo-tiluburguers.jpg" alt={business.name} width="136" height="136" />
       <h1 class="title">{copy.heroTitle}</h1>
       <p class="lede">{copy.heroLede}</p>
       <a class="btn" data-hero-cta href={waLink(GENERIC_ORDER_MESSAGE)} target="_blank" rel="noopener">{copy.orderCta}</a>
@@ -60,6 +61,11 @@ const { copy } = business;
   }
   .video { width: 100%; height: 100%; object-fit: cover; }
   .video::-webkit-media-controls-start-playback-button { display: none; -webkit-appearance: none; }
+  .badge {
+    width: 112px; height: 112px; margin-bottom: 20px;
+    border-radius: 50%; box-shadow: 0 0 0 3px var(--laranja);
+    animation: rise 1.1s cubic-bezier(.2, .7, .2, 1) both;
+  }
   .title {
     font-size: clamp(2.2rem, 11vw, 6rem);
     max-width: min(10ch, 100%); text-wrap: balance;
@@ -73,6 +79,7 @@ const { copy } = business;
   @media (min-width: 1024px) {
     .hero { align-items: center; }
     .title { font-size: min(6rem, 6.2vw); }
+    .badge { width: 136px; height: 136px; margin-bottom: 28px; }
     .inner {
       display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
       gap: 64px; align-items: center; padding-block: 120px 80px;
