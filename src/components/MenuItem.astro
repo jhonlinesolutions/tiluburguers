@@ -1,0 +1,42 @@
+---
+import type { MenuEntry } from '../data/menu';
+import { formatBRL } from '../lib/format';
+import { itemOrderMessage, waLink } from '../lib/whatsapp';
+
+interface Props {
+  item: MenuEntry;
+  orderable: boolean;
+}
+const { item, orderable } = Astro.props;
+---
+<li class="item">
+  <p class="line">
+    <span class="name">{item.name}</span>
+    <span class="leader" aria-hidden="true"></span>
+    <span class="price">{formatBRL(item.price)}</span>
+  </p>
+  {item.ingredients && <p class="ingredients">{item.ingredients}</p>}
+  {orderable && (
+    <a
+      class="order"
+      href={waLink(itemOrderMessage(item.name, item.price))}
+      target="_blank"
+      rel="noopener"
+      aria-label={`Pedir ${item.name} no WhatsApp`}
+    >Pedir</a>
+  )}
+</li>
+
+<style>
+  .line { display: flex; align-items: baseline; gap: .4em; margin: 0; font: 700 1.4rem/1.15 var(--f-cond); }
+  .name { min-width: 0; }
+  .leader { flex: 1; min-width: 1.5em; border-bottom: 2px dotted currentColor; opacity: .45; transform: translateY(-.25em); }
+  .price { white-space: nowrap; }
+  .ingredients { margin: .3em 0 0; max-width: 60ch; color: var(--tinta-suave); font-size: .98rem; }
+  .order {
+    display: inline-flex; align-items: center; min-height: 44px; margin-top: .6em; padding: 0 1.1em;
+    border: 2px solid var(--tinta); border-radius: 999px;
+    color: var(--tinta); font: 700 1.05rem/1 var(--f-cond); text-decoration: none;
+  }
+  .order:hover { background: var(--laranja); border-color: var(--laranja); color: var(--chapa); }
+</style>

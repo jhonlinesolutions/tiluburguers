@@ -1,0 +1,120 @@
+---
+import { business } from '../data/business';
+import { menu } from '../data/menu';
+import MenuItem from './MenuItem.astro';
+---
+<section class="menu" id="cardapio" aria-labelledby="cardapio-titulo" data-menu>
+  <div class="wrap">
+    <h2 id="cardapio-titulo">{business.copy.menuTitle}</h2>
+    <div class="tabs" role="tablist" aria-label="Categorias do cardápio" data-tablist hidden>
+      {menu.map((c, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${c.id}`}
+          aria-controls={`painel-${c.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+        >{c.title}</button>
+      ))}
+    </div>
+    {menu.map((c) => (
+      <div class="panel" id={`painel-${c.id}`}>
+        <h3 class="panel-title">{c.title}</h3>
+        <p class="note">{c.note}</p>
+        <ul class="items">
+          {c.items.map((item) => <MenuItem item={item} orderable={c.orderable} />)}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-menu]');
+  const tablist = root?.querySelector<HTMLElement>('[data-tablist]');
+  if (root && tablist) {
+    const tabs = [...tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls') ?? '')!);
+
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, j) => {
+        const on = i === j;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+    };
+
+    panels.forEach((p, j) => {
+      p.setAttribute('role', 'tabpanel');
+      p.setAttribute('aria-labelledby', tabs[j].id);
+      p.tabIndex = 0;
+    });
+    tablist.hidden = false;
+    root.dataset.enhanced = '';
+    select(0);
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        const last = tabs.length - 1;
+        const next =
+          e.key === 'ArrowRight' ? (i === last ? 0 : i + 1)
+          : e.key === 'ArrowLeft' ? (i === 0 ? last : i - 1)
+          : e.key === 'Home' ? 0
+          : e.key === 'End' ? last
+          : -1;
+        if (next >= 0) {
+          e.preventDefault();
+          select(next, true);
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .menu {
+    position: relative; z-index: 1;
+    background: var(--kraft); color: var(--tinta);
+    padding-block: clamp(64px, 10vw, 112px);
+  }
+  .menu::before, .menu::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 10px;
+    background-repeat: repeat-x; background-size: 16px 10px;
+  }
+  .menu::before {
+    top: -10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M0 10 8 0 16 10Z' fill='%23E9DCC4'/%3E%3C/svg%3E");
+  }
+  .menu::after {
+    bottom: -10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M0 0 8 10 16 0Z' fill='%23E9DCC4'/%3E%3C/svg%3E");
+  }
+  .tabs {
+    display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+    margin: 28px 0 36px; padding: 4px;
+  }
+  .tabs button {
+    flex: none; min-height: 44px; padding: 0 18px;
+    border: 2px solid var(--tinta); border-radius: 999px;
+    background: transparent; color: var(--tinta);
+    font: 700 1.15rem/1 var(--f-cond); cursor: pointer;
+  }
+  .tabs button[aria-selected='true'] { background: var(--tinta); color: var(--kraft); }
+  .panel { margin-top: 48px; }
+  .menu[data-enhanced] .panel { margin-top: 0; }
+  .panel-title { margin: 0 0 4px; font: 700 1.9rem/1.1 var(--f-cond); }
+  .menu[data-enhanced] .panel-title {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .note { margin: 0 0 28px; color: var(--tinta-suave); }
+  .items {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 32px 64px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+  }
+</style>
