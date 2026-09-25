@@ -1,0 +1,35 @@
+---
+import { business } from '../data/business';
+---
+<section class="status" aria-label="Funcionamento">
+  <div class="wrap row">
+    <p class="state" data-status>
+      <span class="dot" aria-hidden="true"></span>
+      <span data-status-label>{business.hoursLabel}</span>
+    </p>
+    <p class="mode">{business.serviceLabel}</p>
+  </div>
+</section>
+
+<script>
+  import { openStatus } from '../lib/openStatus';
+  const el = document.querySelector<HTMLElement>('[data-status]');
+  const label = el?.querySelector('[data-status-label]');
+  function update() {
+    if (!el || !label) return;
+    const s = openStatus(new Date());
+    label.textContent = s.label;
+    el.dataset.open = String(s.open);
+  }
+  update();
+  setInterval(update, 60_000);
+</script>
+
+<style>
+  .status { border-block: 1px solid rgb(255 246 234 / .12); }
+  .row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 32px; padding-block: 18px; }
+  .state { display: flex; align-items: center; gap: 10px; margin: 0; font: 700 1.3rem/1.2 var(--f-cond); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--osso-suave); }
+  .state[data-open='true'] .dot { background: var(--cheddar); box-shadow: 0 0 0 4px rgb(246 184 48 / .25); }
+  .mode { margin: 0; color: var(--osso-suave); }
+</style>
